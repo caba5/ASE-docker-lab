@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  gateway_service:
+    build: ./gateway
+    volumes:
+      - ./gateway:/usr/src/gateway
+    ports:
+      - 8081:8081
+
+  math_service:
+    build: ./math_py
+    volumes:
+      - ./math_py:/usr/src/math_py
+    ports:
+      - 8080:8080
+    depends_on:
+      - gateway_service
+  
+  string_service:
+    build: ./string_rust
+    volumes:
+      - ./string_rust:/usr/src/string_rust
+    ports:
+      - 5000:5000
+    depends_on:
+      - gateway_service
+
+  random_service:
+    build: ./random_py
+    volumes:
+      - ./random_py:/usr/src/random_py
+    ports:
+      - 8082:8082
+    depends_on:
+      - gateway_service
