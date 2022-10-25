@@ -7,6 +7,10 @@ services:
       - ./gateway:/usr/src/gateway
     ports:
       - 8081:8081
+    depends_on:
+      - math_service
+      - random_service
+      - string_service
 
   math_service:
     build: ./math_py
@@ -14,17 +18,13 @@ services:
       - ./math_py:/usr/src/math_py
     ports:
       - 8080:8080
-    depends_on:
-      - gateway_service
-  
+
   string_service:
     build: ./string_rust
     volumes:
       - ./string_rust:/usr/src/string_rust
     ports:
       - 5000:5000
-    depends_on:
-      - gateway_service
 
   random_service:
     build: ./random_py
@@ -32,5 +32,3 @@ services:
       - ./random_py:/usr/src/random_py
     ports:
       - 8082:8082
-    depends_on:
-      - gateway_service
